@@ -7,16 +7,12 @@ package com.example.audakel.fammap.filter;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.example.audakel.fammap.R;
-
-import java.util.List;
 
 /**
  * FilterView acts as its own “holder” by using
@@ -26,7 +22,7 @@ import java.util.List;
 public class FilterView extends RelativeLayout {
     private TextView mTitleTextView;
     private TextView mDescriptionTextView;
-    private ImageView mImageView;
+    private Switch mSwitch;
 
 
     /**
@@ -57,6 +53,7 @@ public class FilterView extends RelativeLayout {
     private void setupChildren() {
         mTitleTextView = (TextView) findViewById(R.id.filter_titleTextView);
         mDescriptionTextView = (TextView) findViewById(R.id.filter_descriptionTextView);
+        mSwitch = (Switch) findViewById(R.id.mySwitch);
     }
 
 
@@ -67,6 +64,7 @@ public class FilterView extends RelativeLayout {
     public void setItem(Filter filter) {
         mTitleTextView.setText(filter.getTitle());
         mDescriptionTextView.setText(filter.getDescription());
+        mSwitch.setChecked(filter.isChecked());
     }
 
 
@@ -79,4 +77,27 @@ public class FilterView extends RelativeLayout {
         return filterView;
     }
 
+    public TextView getmTitleTextView() {
+        return mTitleTextView;
+    }
+
+    public void setmTitleTextView(TextView mTitleTextView) {
+        this.mTitleTextView = mTitleTextView;
+    }
+
+    public TextView getmDescriptionTextView() {
+        return mDescriptionTextView;
+    }
+
+    public void setmDescriptionTextView(TextView mDescriptionTextView) {
+        this.mDescriptionTextView = mDescriptionTextView;
+    }
+
+    public Switch getmSwitch() {
+        return mSwitch;
+    }
+
+    public void setmSwitch(Switch mSwitch) {
+        this.mSwitch = mSwitch;
+    }
 }

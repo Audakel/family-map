@@ -76,4 +76,5 @@
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="title_activity_person">PersonActivity</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_delet_me">DeletMe</string>
 </resources>

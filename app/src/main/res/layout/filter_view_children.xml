@@ -9,8 +9,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="title text"
-        android:layout_margin="5dp"
-        />
+        android:textStyle="bold"
+        android:textSize="18dp" />
     <TextView
         android:id="@+id/filter_descriptionTextView"
         android:layout_width="wrap_content"
@@ -18,5 +18,16 @@
         android:layout_below="@id/filter_titleTextView"
         android:layout_marginTop="5dp"
         android:text="description text"
+        />
+    <Switch
+        android:id="@+id/mySwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="20dp"
+        android:text=""
+        android:checked="true"
+        />
         />
 </merge>

@@ -10,7 +10,6 @@ import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -21,6 +20,8 @@ import android.view.View;
 
 import com.example.audakel.fammap.filter.FilterActivity;
 import com.example.audakel.fammap.model.Event;
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -52,6 +53,23 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
      * View for snackbars to access
      */
     private View view;
+    /**
+     * floating action bar menu
+     */
+    private FloatingActionMenu menu;
+    /**
+     * menu button for search activity
+     */
+    private FloatingActionButton seachFAB;
+    /**
+     * menu button for settings activity
+     */
+    private FloatingActionButton settingsFAB;
+    /**
+     * menu button for filter activity
+     */
+    private FloatingActionButton filterFAB;
+
 
 
 
@@ -70,17 +88,31 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         // Get singleton that will hold all app references to things we need
         MySingleton singleton = MySingleton.getInstance(this);
 
-        // Set map
-//        initMap();
+        // Set up menu buttons
+        menu = (FloatingActionMenu) view.findViewById(R.id.menu_fab);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        assert fab != null;
-        fab.setOnClickListener(new View.OnClickListener() {
+        seachFAB = (FloatingActionButton) view.findViewById(R.id.fab_search);
+        seachFAB.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), SearchActivity.class));
+            }
+        });
+        settingsFAB = (FloatingActionButton) view.findViewById(R.id.fab_settings);
+        settingsFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
+            }
+        });
+        filterFAB = (FloatingActionButton) view.findViewById(R.id.fab_filter);
+        filterFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), FilterActivity.class));
             }
         });
+
     }
 
     @Override
@@ -216,6 +248,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             e.printStackTrace();
         }
     }
+
+
+    /**
+     * Sets up the floating action button and menu choices
+     */
 
 }
 
