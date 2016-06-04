@@ -78,18 +78,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     private UserLoginTask mAuthTask = null;
-    /**
-     * IP of the server
-     */
-    private String server = "192.168.122.1";
-    /**
-     * Port of the server
-     */
-    private int port = 8080;
 
     // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
+    private EditText mServerView;
+    private EditText mPortView;
     private View mProgressView;
     private View mLoginFormView;
     /**
@@ -109,6 +103,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             this.startActivity(new Intent(this, MainActivity.class));
         }
 
+        mServerView = (EditText) findViewById(R.id.server);
+        mPortView = (EditText) findViewById(R.id.port);
 
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
@@ -231,7 +227,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(this, email, password, server, port);
+            mAuthTask = new UserLoginTask(this, email, password, mServerView.getText().toString(),
+                    Integer.valueOf(mPortView.getText().toString()));
             mAuthTask.execute((Void) null);
         }
     }
@@ -402,7 +399,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 json.put("username", mUsername);
                 json.put("password", mPassword);
 
-                JSONObject response = new JSONObject(post(API_LOGIN_URL, json.toString()));
+                JSONObject response = new JSONObject(post("http://"+mServer+":"+mPort+"/user/login",
+                        json.toString()));
                 
                 if (!response.has("Authorization")){
                     Log.d(TAG, "doInBackground: bad login attempt!");
@@ -415,6 +413,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 writeToSharedPrefs(USERNAME, response.getString(USERNAME));
                 writeToSharedPrefs(PERSON_ID, response.getString(PERSON_ID));
 
+                writeToSharedPrefs(Constants.BASE_URL, "http://"+mServer+":"+mPort+"/");
                 mActivity.startActivity(new Intent(mActivity, MainActivity.class));
 
 

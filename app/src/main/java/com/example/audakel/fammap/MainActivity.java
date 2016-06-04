@@ -115,10 +115,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
+    /**
+     * kills the bound service so no leaks happen...
+     */
     @Override
     protected void onStop() {
         super.onStop();
-        stopService(new Intent(getBaseContext(), MyService.class));
+        unbindService(mConnection);
+//        stopService(new Intent(getBaseContext(), MyService.class));
     }
 
     public void initMap() {

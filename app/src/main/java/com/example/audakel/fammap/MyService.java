@@ -195,7 +195,7 @@ public class MyService extends IntentService {
     private JSONObject request(String endpoint, String json)  {
         Response response = null;
         Request request = null;
-        String url = BASE_URL + endpoint;
+        String url = getBaseUrl() + endpoint;
         OkHttpClient client = new OkHttpClient();
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
@@ -258,5 +258,9 @@ public class MyService extends IntentService {
     }
 
 
+    public String getBaseUrl() {
+        SharedPreferences prefs = getApplication().getSharedPreferences(SHARAED_PREFS_BASE, Context.MODE_PRIVATE);
 
+        return prefs.getString(SHARAED_PREFS_BASE + BASE_URL, MISSING_PREF);
+    }
 }
