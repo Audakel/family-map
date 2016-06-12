@@ -18,8 +18,9 @@ public class User extends Person{
     private String authorization;
 
 
-    public User(String firstname, String lastname, Gender gender, String email, String password, String personId, String authorization) {
-        super(firstname, lastname, gender, personId);
+    public User(String firstname, String lastname, Gender gender, String email, String password, String personId, String authorization,
+                String mother, String father) {
+        super(firstname, lastname, gender, personId, null, father, mother);
         this.email = email;
         this.password = password;
         this.authorization = authorization;
@@ -49,3 +50,4 @@ public class User extends Person{
         this.authorization = authorization;
     }
 }
+

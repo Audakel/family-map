@@ -77,4 +77,13 @@
     <string name="title_activity_person">PersonActivity</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_delet_me">DeletMe</string>
+
+    <string name="color">Color</string>
+    <string-array name="line_colors">
+        <item>Red</item>
+        <item>Green</item>
+        <item>Blue</item>
+    </string-array>
+    <string name="title_activity_delete_me">DeleteMe</string>
+
 </resources>

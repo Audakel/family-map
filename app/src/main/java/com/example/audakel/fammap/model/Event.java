@@ -1,9 +1,12 @@
 package com.example.audakel.fammap.model;
 
+import com.example.audakel.fammap.MySingleton;
+import com.google.android.gms.maps.model.LatLng;
+
 /**
  * Created by audakel on 5/27/16.
  */
-public class Event {
+public class Event extends Searchable{
     /**
      * brief overview of the event
      */
@@ -43,6 +46,29 @@ public class Event {
         this.latitude = latitude;
         this.longitude = longitude;
         this.year = year;
+    }
+
+    public int compareEvent(Event other) {
+        return Integer.compare(
+                Integer.valueOf(this.getYear()),
+                Integer.valueOf(other.getYear())
+        );
+    }
+
+    /**
+     * HACKKKK!!!!! to lazy to do something else so just multiply lat * lng to get id....
+     * @return
+     */
+    public Double getID() {
+        return getLatitude() * getLongitude();
+    }
+
+    /**
+     * takes the id of the event and matches it to a person object
+     * @return person
+     */
+    public Person getPersonByID() {
+        return MySingleton.getFamilyMap().getPeopleHashMap().get(getPersonID());
     }
 
     public String getDescription() {
@@ -100,4 +126,15 @@ public class Event {
     public void setYear(Integer year) {
         this.year = year;
     }
+
+
+    @Override
+    public String getTitle() {
+        return getDescription();
+    }
+
+    public LatLng getLatLng() {
+        return new LatLng(getLatitude(),getLongitude());
+    }
+
 }

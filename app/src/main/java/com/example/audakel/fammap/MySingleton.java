@@ -5,20 +5,16 @@ package com.example.audakel.fammap;
  */
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.util.Log;
-import android.widget.ArrayAdapter;
 
 import com.example.audakel.fammap.model.Event;
 import com.example.audakel.fammap.model.FamilyMap;
 import com.example.audakel.fammap.model.Person;
-import com.example.audakel.fammap.model.Settings;
+import com.example.audakel.fammap.settings.Settings;
 import com.example.audakel.fammap.model.User;
+import com.google.android.gms.maps.model.Marker;
 
-import java.net.URL;
 import java.util.ArrayList;
-
-import static com.example.audakel.fammap.Constants.SHARAED_PREFS_BASE;
+import java.util.HashMap;
 
 /**
  * Holds static reference to all the fam map info
@@ -52,6 +48,10 @@ public class MySingleton {
      * helper accesor/mutator for People
      */
     private ArrayList<Person> people;
+    /**
+     * Hash map to help map clicked markers to the events they represent
+     * */
+    private HashMap<Marker, Event> markers;
 
 
     /**
@@ -135,5 +135,13 @@ public class MySingleton {
 
     public void setPeople(ArrayList<Person> people) {
         getFamilyMap().setPeople(people);
+    }
+
+    public HashMap<Marker, Event> getMarkers() {
+        return markers;
+    }
+
+    public void setmMarkers(HashMap<Marker, Event> mMarkers) {
+        this.markers = mMarkers;
     }
 }

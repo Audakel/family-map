@@ -5,21 +5,28 @@
     android:layout_height="wrap_content" >
 
     <TextView
-        android:id="@+id/filter_titleTextView"
+        android:id="@+id/settings_titleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="title text"
         android:textStyle="bold"
         android:textSize="18dp" />
     <TextView
-        android:id="@+id/filter_descriptionTextView"
+        android:id="@+id/settings_descriptionTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/filter_titleTextView"
+        android:layout_below="@id/settings_titleTextView"
         android:layout_marginTop="5dp"
         android:text="description text"
         />
 
+    <Spinner
+        android:id="@+id/spinner1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:entries="@array/line_colors"
+        android:layout_toLeftOf="@+id/mySwitch"
+        android:prompt="@string/color" />
 
     <Switch
         android:id="@+id/mySwitch"
@@ -31,5 +38,5 @@
         android:text=""
         android:checked="true"
         />
-
+        />
 </merge>

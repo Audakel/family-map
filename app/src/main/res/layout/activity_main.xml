@@ -20,10 +20,11 @@
                 android:layout_height="wrap_content"
                 android:theme="@style/AppTheme.AppBarOverlay">
 
-                <include
-                    android:id="@+id/tool_bar"
-                    layout="@layout/tool_bar"
-                    ></include>
+                <android.support.design.widget.AppBarLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/AppTheme.AppBarOverlay">
+                </android.support.design.widget.AppBarLayout>
 
             </android.support.design.widget.AppBarLayout>
 
@@ -45,28 +46,21 @@
                     android:id="@+id/map"
                     android:name="com.google.android.gms.maps.SupportMapFragment"
                     android:layout_width="match_parent"
-                    android:layout_height="337dp"
+                    android:layout_height="490dp"
                     tools:context=".MapsFragment"
                     android:layout_weight="0.69" />
 
                 <TextView
+                    android:id="@+id/detail_message_1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:padding="10dp"
+
                     android:background="@android:color/white"
-                    android:text="hello there"
-                    />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/white"
-                    android:text="hello there"
-                    />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/white"
-                    android:text="hello there"
-                    />
+                    android:text="DONE IS BETTER THAN THE PERFECT. PERFECT IS THE ENEMY OF THE GOOD"
+                    android:textStyle="bold"
+                    android:textSize="18sp" />
+
 
 
             </LinearLayout>

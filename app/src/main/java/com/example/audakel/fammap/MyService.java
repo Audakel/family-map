@@ -32,6 +32,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 import static com.example.audakel.fammap.Constants.*;
+import static com.example.audakel.fammap.MySingleton.*;
 
 /**
  * Created by audakel on 5/28/16.
@@ -98,8 +99,9 @@ public class MyService extends IntentService {
             {
                 switch (msg.what) {
                     case MSG_INIT_DATA:
-                        MySingleton.getInstance(getApplicationContext()).getFamilyMap().setEvents(syncEvents());
-                        MySingleton.getInstance(getApplicationContext()).getFamilyMap().setPeople(syncPeople());
+                        getInstance(getApplicationContext()).getFamilyMap().setEvents(syncEvents());
+                        getInstance(getApplicationContext()).getFamilyMap().setPeople(syncPeople());
+                        getInstance(getApplicationContext()).getFamilyMap().setUser(syncUser());
                         Message message = Message.obtain(null, DATA_LOADED, 0, 0);
                         try {
                             mMessenger.send(message);
@@ -133,6 +135,31 @@ public class MyService extends IntentService {
 
     // Not used
     protected void onHandleIntent(Intent intent) {}
+
+    /**
+     * gets all the people in the db
+     * @return list of people
+     */
+    private Person syncUser() {
+        Gson gson = new Gson();
+
+        SharedPreferences prefs = getApplication().getSharedPreferences(SHARAED_PREFS_BASE, Context.MODE_PRIVATE);
+        String personId = prefs.getString(SHARAED_PREFS_BASE + PERSON_ID, MISSING_PREF);
+
+        try {
+            JSONArray json = request(PEOPLE_API + personId, null).getJSONArray("data");
+
+            Person person = gson.fromJson(json.toString(), Person.class);
+
+            return person;
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+
+    }
+
 
     /**
      * gets all the people in the db

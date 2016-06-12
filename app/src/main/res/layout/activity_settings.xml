@@ -1,0 +1,7 @@
+<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".settings.SettingsActivity"
+    android:id="@+id/settingsListFragment"
+    android:name="com.example.audakel.fammap.settings.SettingsListFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />

@@ -1,12 +1,14 @@
-package com.example.audakel.fammap.model;
+package com.example.audakel.fammap.settings;
 
 import android.graphics.Color;
 import android.widget.ArrayAdapter;
 
 import com.example.audakel.fammap.filter.Filter;
+import com.example.audakel.fammap.model.Line;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by audakel on 5/30/16.
@@ -65,8 +67,8 @@ public class Settings {
      * Change the map type to one of the following:
      *  Normal (Default), Hybrid, Satellite, or Terrain
      */
-    private enum MapTypes {NORMAL, HYBRID, SATELLITE, TERRAIN}
-    private MapTypes mapType;
+//    private enum MapTypes {NORMAL, HYBRID, SATELLITE, TERRAIN}
+    private Line mapType;
     /**
      * Just a button
      */
@@ -83,15 +85,22 @@ public class Settings {
         this.lifeSoryLine = new Line(Color.RED, "Life Story Lines", "Show Spouse Lines");
         this.familyTreeLine = new Line(Color.GREEN, "Family Tree Lines", "Show Tree Liens");
         this.spouseLine = new Line(Color.BLUE, "Spouse Lines", "Show Spouse Lines");
-        this.mapType = MapTypes.NORMAL;
         this.dataResync = new Line(-1, "Resync Data", "From Server");
         this.logout = new Line(-1, "Logout", "Returns to login screen");
+
+        // Horrible hack for the map. Putting the google map type int in the description spot. Default normal map view
+        this.mapType = new Line(-1, "Map Type", "1");
     }
 
     public Line[] getAllSettings(){
         return new Line[] {
-                getLifeSoryLine(), getFamilyTreeLine(), getSpouseLine(), getDataResync(), getLogout()
+                getLifeSoryLine(), getFamilyTreeLine(), getSpouseLine(), getMapType(), getDataResync(), getLogout()
         };
+    }
+
+
+    public List<Line> getAllSettingsArray() {
+        return new ArrayList<>(Arrays.asList(getAllSettings()));
     }
 
     public Filters getFilters() {
@@ -100,11 +109,11 @@ public class Settings {
         return filters;
     }
 
-    public MapTypes getMapType() {
+    public Line getMapType() {
         return mapType;
     }
 
-    public void setMapType(MapTypes mapType) {
+    public void setMapType(Line mapType) {
         this.mapType = mapType;
     }
 
