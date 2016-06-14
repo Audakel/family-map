@@ -1,13 +1,15 @@
-package com.example.audakel.fammap.model;
+package com.example.audakel.fammap.person;
 
-import com.example.audakel.fammap.MySingleton;
+import com.example.audakel.fammap.model.Event;
+import com.example.audakel.fammap.model.FamilyMember;
+import com.example.audakel.fammap.model.Searchable;
 import com.google.android.gms.maps.model.PolylineOptions;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Random;
 
 import static com.example.audakel.fammap.Constants.Relation.CHILD;
 import static com.example.audakel.fammap.Constants.Relation.FATHER;
@@ -32,6 +34,7 @@ public class Person extends Searchable {
      * gender of person
      */
     private Gender gender;
+
 
 
 
@@ -92,6 +95,15 @@ public class Person extends Searchable {
         this.spouse = spouse;
         this.father = father;
         this.mother = mother;
+    }
+
+    /**
+     * hack for better performance on id lookup
+     * @return
+     */
+    @Override
+    public String getIdHack() {
+        return "person:" + getPersonID();
     }
 
     /**
@@ -165,6 +177,14 @@ public class Person extends Searchable {
         return null;
     }
 
+    public boolean isMotherSide() {
+        return new Random().nextBoolean();
+
+    }
+
+    public boolean isFatherSide() {
+        return new Random().nextBoolean();
+    }
 
     /**
      * Looks at all the events and takes the LatLng and makes lines btwn them all

@@ -7,4 +7,6 @@ public abstract class Searchable {
     String title;
 
     public abstract String getTitle();
+
+    public abstract String getIdHack();
 }

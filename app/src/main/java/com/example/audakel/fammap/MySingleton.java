@@ -8,7 +8,7 @@ import android.content.Context;
 
 import com.example.audakel.fammap.model.Event;
 import com.example.audakel.fammap.model.FamilyMap;
-import com.example.audakel.fammap.model.Person;
+import com.example.audakel.fammap.person.Person;
 import com.example.audakel.fammap.settings.Settings;
 import com.example.audakel.fammap.model.User;
 import com.google.android.gms.maps.model.Marker;

@@ -22,7 +22,7 @@ import android.widget.TextView;
 
 import com.example.audakel.fammap.filter.FilterActivity;
 import com.example.audakel.fammap.model.Event;
-import com.example.audakel.fammap.model.Person;
+import com.example.audakel.fammap.person.Person;
 import com.example.audakel.fammap.person.PersonActivity;
 import com.example.audakel.fammap.search.SearchActivity;
 import com.example.audakel.fammap.settings.Settings;
@@ -39,7 +39,6 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
@@ -50,14 +49,16 @@ import java.util.List;
 import java.util.Map;
 
 import static com.example.audakel.fammap.Constants.BAPTISM;
-import static com.example.audakel.fammap.Constants.BASE_URL;
 import static com.example.audakel.fammap.Constants.BIRTH;
 import static com.example.audakel.fammap.Constants.CENSUS;
 import static com.example.audakel.fammap.Constants.CHRISTENING;
 import static com.example.audakel.fammap.Constants.DEATH;
-import static com.example.audakel.fammap.Constants.EVENT_INTENT_LATLNG;
+import static com.example.audakel.fammap.Constants.FATHER;
+import static com.example.audakel.fammap.Constants.FEMALE;
+import static com.example.audakel.fammap.Constants.MALE;
 import static com.example.audakel.fammap.Constants.MARRIAGE;
 import static com.example.audakel.fammap.Constants.MISSING_PREF;
+import static com.example.audakel.fammap.Constants.MOTHER;
 import static com.example.audakel.fammap.Constants.SHARAED_PREFS_BASE;
 import static com.example.audakel.fammap.Constants.ZOOM_LATLNG;
 import static com.example.audakel.fammap.MySingleton.*;
@@ -371,7 +372,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 case MyService.DATA_LOADED:
                     Log.d(TAG, "handleMessage: from service, data loaded");
 
-                    Snackbar.make(view, "Hi Bob Bob! Map has been created with "
+                    Snackbar.make(view, "Hi " + MySingleton.getFamilyMap().getUser().getTitle()
+                            + "! Map has been created with "
                             + getFamilyMap().getEvents().size() + " events and "
                             + getFamilyMap().getPeople().size() + " people" ,Snackbar.LENGTH_SHORT)
                             .setAction("Action", null).show();
@@ -428,11 +430,38 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 case CENSUS: tmpMarker.setVisible(filters.getCensusEvents().isChecked());break;
                 case BIRTH: tmpMarker.setVisible(filters.getBirthEvents().isChecked());break;
                 case DEATH: tmpMarker.setVisible(filters.getDeathEvents().isChecked());break;
+
+
             }
+
+
+            if (tmpEvent.getPersonByID().getGender().equals(Person.Gender.m)){
+                tmpMarker.setVisible(filters.getMaleEvents().isChecked());
+            }
+
+            if (tmpEvent.getPersonByID().getGender().equals(Person.Gender.f)){
+                tmpMarker.setVisible(filters.getFemaleEvents().isChecked());
+            }
+
+//            if (tmpEvent.getPersonByID().isMotherSide()){
+//                tmpMarker.setVisible(filters.getMotherSideEvents().isChecked());
+//
+//            }
+//
+//            if (tmpEvent.getPersonByID().isFatherSide()){
+//                tmpMarker.setVisible(filters.getFatherSideEvents().isChecked());
+//
+//            }
+
         }
 
         // Storing the map int as a string in the description spot
         curMapTypeIndex = Integer.valueOf(getSettings().getMapType().getDescription());
+
+
+        if (mMap == null){
+            initMap();
+        }
         mMap.setMapType( MAP_TYPES[curMapTypeIndex] );
 
         // Hide the "get turns to this location" button

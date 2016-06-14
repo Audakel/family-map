@@ -17,7 +17,6 @@ import com.example.audakel.fammap.Constants;
 import com.example.audakel.fammap.R;
 import com.example.audakel.fammap.model.Event;
 import com.example.audakel.fammap.model.FamilyMember;
-import com.example.audakel.fammap.model.Person;
 
 import java.util.ArrayList;
 import java.util.Collections;

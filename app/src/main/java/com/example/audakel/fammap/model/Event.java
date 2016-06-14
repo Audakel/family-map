@@ -1,6 +1,7 @@
 package com.example.audakel.fammap.model;
 
 import com.example.audakel.fammap.MySingleton;
+import com.example.audakel.fammap.person.Person;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -53,6 +54,14 @@ public class Event extends Searchable{
                 Integer.valueOf(this.getYear()),
                 Integer.valueOf(other.getYear())
         );
+    }
+
+    /**
+     * hack to get evenst from the serach view
+     */
+    @Override
+    public String getIdHack() {
+        return "event:" + getLatitude() + "," + getLongitude();
     }
 
     /**
@@ -130,7 +139,8 @@ public class Event extends Searchable{
 
     @Override
     public String getTitle() {
-        return getDescription();
+
+        return getDescription() + " : " + getPersonByID().getTitle() + " : " + getCity();
     }
 
     public LatLng getLatLng() {

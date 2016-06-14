@@ -1,16 +1,11 @@
 package com.example.audakel.fammap.search;
 
 import android.app.Activity;
-import android.app.ListActivity;
 import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -21,7 +16,8 @@ import android.widget.SearchView;
 
 import com.example.audakel.fammap.MySingleton;
 import com.example.audakel.fammap.R;
-import com.example.audakel.fammap.model.Searchable;
+import com.example.audakel.fammap.model.Event;
+import com.example.audakel.fammap.person.Person;
 
 import java.util.List;
 
@@ -41,6 +37,7 @@ public class SearchActivity extends Activity implements SearchView.OnQueryTextLi
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         setContentView(R.layout.activity_search);
+
 
 
         final SearchView searchView = (SearchView)findViewById(R.id.homeSearch);
@@ -69,7 +66,7 @@ public class SearchActivity extends Activity implements SearchView.OnQueryTextLi
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new SearchResultAdapter();
+        mAdapter = new SearchResultAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
 
 //        onNewIntent(getIntent());
@@ -80,22 +77,19 @@ public class SearchActivity extends Activity implements SearchView.OnQueryTextLi
     }
 
     private void doSearch(String query) {
-        /*Uri searchUri = RecipeContentProvider.CONTENT_URI.buildUpon()
-                .appendPath("search").appendEncodedPath(query).build();*/
-
-       /* String[] projection = { RecipeTable.ID, RecipeTable.TITLE,
-                RecipeTable.DESCRIPTION, RecipeTable.PHOTO,
-                RecipeTable.PREP_TIME};
-        Cursor cursor = getContentResolver().query(searchUri, projection, null, null, null);
-        cursor.moveToFirst();*/
-
         mAdapter.clearResults();
+        mAdapter = new SearchResultAdapter(this);
 
-        mAdapter = new SearchResultAdapter();
+        // SCREAMMMM!!! WHAT IS THIS MONSTROSITY???????
+        for (Event event : MySingleton.getFamilyMap().getEvents()){
+            if (event.getCountry().contains(query)) mAdapter.addResult(event);
+            else if ((event.getYear()+"").contains(query)) mAdapter.addResult(event);
+            else if (event.getCity().contains(query)) mAdapter.addResult(event);
+        }
 
-        for (int i = 0; i < 5; i++) {
-            mAdapter.addResult(MySingleton.getFamilyMap().getEvents().get(i));
-            mAdapter.addResult(MySingleton.getFamilyMap().getPeople().get(i));
+        for (Person person : MySingleton.getFamilyMap().getPeople()){
+            if (person.getFirstName().contains(query)) mAdapter.addResult(person);
+            else if (person.getLastName().contains(query)) mAdapter.addResult(person);
         }
 
         mRecyclerView.setAdapter(mAdapter);

@@ -1,17 +1,10 @@
 package com.example.audakel.fammap.model;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-
+import com.example.audakel.fammap.person.Person;
 import com.example.audakel.fammap.settings.Settings;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import static com.example.audakel.fammap.Constants.BASE_URL;
-import static com.example.audakel.fammap.Constants.MISSING_PREF;
-import static com.example.audakel.fammap.Constants.PERSON_ID;
-import static com.example.audakel.fammap.Constants.SHARAED_PREFS_BASE;
 
 /**
  * holds arrays of events, persons, users etc...

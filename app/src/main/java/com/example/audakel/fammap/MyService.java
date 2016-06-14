@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.IBinder;
-import android.os.Looper;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
@@ -15,7 +14,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.audakel.fammap.model.Event;
-import com.example.audakel.fammap.model.Person;
+import com.example.audakel.fammap.person.Person;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -146,17 +145,11 @@ public class MyService extends IntentService {
         SharedPreferences prefs = getApplication().getSharedPreferences(SHARAED_PREFS_BASE, Context.MODE_PRIVATE);
         String personId = prefs.getString(SHARAED_PREFS_BASE + PERSON_ID, MISSING_PREF);
 
-        try {
-            JSONArray json = request(PEOPLE_API + personId, null).getJSONArray("data");
+        JSONObject json = request(PEOPLE_API + personId, null);
+        Person person = gson.fromJson(json.toString(), Person.class);
+        return person;
 
-            Person person = gson.fromJson(json.toString(), Person.class);
 
-            return person;
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return null;
 
     }
 

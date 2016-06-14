@@ -8,6 +8,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
+import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -19,19 +22,39 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.example.audakel.fammap.LoginActivity;
+import com.example.audakel.fammap.MainActivity;
+import com.example.audakel.fammap.MyService;
 import com.example.audakel.fammap.MySingleton;
 import com.example.audakel.fammap.filter.FilterActivity;
 import com.example.audakel.fammap.model.Line;
+import com.example.audakel.fammap.search.SearchActivity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
 import static android.view.View.INVISIBLE;
+import static com.example.audakel.fammap.Constants.BASE_URL;
+import static com.example.audakel.fammap.Constants.EVENTS_API;
+import static com.example.audakel.fammap.Constants.MISSING_PREF;
+import static com.example.audakel.fammap.Constants.PEOPLE_API;
+import static com.example.audakel.fammap.Constants.SHARAED_PREFS_BASE;
+import static com.example.audakel.fammap.Constants.USER_AUTH;
 
 /**
  * SettingsView is responsible for translating an Settings into views to render onscreen
  */
 public class SettingsAdapter extends ArrayAdapter<Line> {
+    private final Context context;
     /**
      * for logging
      */
@@ -49,6 +72,7 @@ public class SettingsAdapter extends ArrayAdapter<Line> {
      */
     public SettingsAdapter(Context c, List<Line> items) {
         super(c, 0, items);
+        this.context = c;
         switches = new ArrayList<>();
     }
 
@@ -76,6 +100,36 @@ public class SettingsAdapter extends ArrayAdapter<Line> {
         if (position > 2){
             settingsView.getmSwitch().setVisibility(INVISIBLE);
             settingsView.getmSpinner().setVisibility(INVISIBLE);
+
+            // Reset button
+            if (position == 4){
+                settingsView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        AsyncTask.execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                request(EVENTS_API, null);
+                                request(PEOPLE_API, null);
+
+                            }
+                        });
+
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                ((SettingsActivity)context).onBackPressed();
+
+                            }
+                        }, 2000);
+
+
+
+                    }
+                });
+            }
 
             // Logout button
             if (position == 5){
@@ -139,6 +193,56 @@ public class SettingsAdapter extends ArrayAdapter<Line> {
             if (lineSetting.getId() == id) return lineSetting;
         }
         return null;
+    }
+
+
+    private JSONObject request(String endpoint, String json)  {
+        Response response = null;
+        Request request = null;
+        String url = getBaseUrl() + endpoint;
+        OkHttpClient client = new OkHttpClient();
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+
+        if (json == null){
+            request = new Request.Builder()
+                    .url(url)
+                    .addHeader(USER_AUTH, getAuthorization())
+                    .build();
+        }
+        else{
+            RequestBody body = RequestBody.create(JSON, json);
+            request = new Request.Builder()
+                    .url(url)
+                    .addHeader(USER_AUTH, getAuthorization())
+                    .post(body)
+                    .build();
+        }
+        try {
+            response = client.newCall(request).execute();
+            Log.d(TAG, "post: endpoint=" + endpoint + " res=" + response);
+            return new JSONObject(response.body().string());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public String getBaseUrl() {
+        SharedPreferences prefs = context.getSharedPreferences(SHARAED_PREFS_BASE, Context.MODE_PRIVATE);
+        return prefs.getString(SHARAED_PREFS_BASE + BASE_URL, MISSING_PREF);
+    }
+
+    public String getAuthorization() {
+//        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences prefs = context.getSharedPreferences(SHARAED_PREFS_BASE, Context.MODE_PRIVATE);
+
+        return prefs.getString(SHARAED_PREFS_BASE + USER_AUTH, MISSING_PREF);
+
+        // TODO:: fix shared prefs
+//        return "id3x7199-tw54-c";
     }
 
 }

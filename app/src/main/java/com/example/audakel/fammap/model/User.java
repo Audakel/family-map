@@ -1,9 +1,11 @@
 package com.example.audakel.fammap.model;
 
+import com.example.audakel.fammap.person.Person;
+
 /**
  * Created by audakel on 5/28/16.
  */
-public class User extends Person{
+public class User extends Person {
     /**
      * email of person
      */

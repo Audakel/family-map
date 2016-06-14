@@ -15,7 +15,7 @@ public class Constants {
     public static String PERSON_ID = "personId";
     public static String MISSING_PREF = "missing pref!!";
     public static String EVENTS_API = "event/";
-    public static boolean SKIP_LOGIN = true;
+    public static boolean SKIP_LOGIN = false;
     public static String PEOPLE_API = "person/";
     public static String PORT = "port";
     public static String SERVER = "server";
@@ -27,6 +27,11 @@ public class Constants {
     public static final String CENSUS = "census";
     public static final String CHRISTENING = "christening";
     public static final String BAPTISM = "baptism";
+    public static final String MALE = "male";
+    public static final String FEMALE = "female";
+    public static final String MOTHER = "mother";
+    public static final String FATHER = "father";
+
     public static String PERSON_INTENT_ID = "person_id";
     public static String EVENT_INTENT_LATLNG = "event_id";
 
